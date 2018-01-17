@@ -8,6 +8,6 @@
 -------
 ### Webpack To Do:
 
-[x] Add `file-loader`  
-[x] Add `Hot Module Replacement`  
-[ ] Add `commons` chunks and modules for better caching
+- [x] Add `file-loader`  
+- [x] Add `Hot Module Replacement`  
+- [ ] Add `commons` chunks and modules for better caching
