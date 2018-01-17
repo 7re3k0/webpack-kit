@@ -4,6 +4,13 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    title IS TDS
+    title
+      = htmlWebpackPlugin.options.title
   body
     include _includes/header.pug
+    p this is an inline image
+      img(src="../assets/robot_lookleft_wink_big.png", alt="")
+    <svg class="nc-icon nc-icon-grid-24 nc-icon-outline stroke-1"><use xlink:href="../assets/nc-icons.svg#nc-icon-calendar-60-outline-24"/></svg>
+    p This is an icon next to text: #[span <svg class="nc-align-to-text nc-icon-outline stroke-1"><use xlink:href="../assets/nc-icons.svg#nc-icon-calendar-60-outline-24"/></svg> calendar]
+    p this is an image from css background
+    .flex

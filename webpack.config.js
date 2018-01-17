@@ -1,6 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path              = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack           = require('webpack');
+
+const isProd  = process.env.NODE_ENV === 'production';         //Check if it's production mode
+const cssDev  = ['style-loader', 'css-loader', 'sass-loader'];
+const cssProd = ExtractTextPlugin.extract({
+                  fallback: 'style-loader',
+                  use     : ['css-loader', 'postcss-loader', 'sass-loader']
+                });
+const cssConfig = isProd ? cssProd : cssDev;
 
 module.exports = {
   entry : './src/index.js',
@@ -12,40 +21,63 @@ module.exports = {
     rules: [
       {
         test: /\.(css|scss|sass)$/,
-        use : ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use     : ['css-loader','postcss-loader', 'sass-loader']
-        })
+        use : cssConfig
       },
       {
         test: /\.pug$/,
-        use : 'pug-loader'
+        use : {
+          loader : 'pug-loader',
+          options: {
+            pretty: true
+          }
+        }
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        use : [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'assets/',
+            publicPath: '../'
+          }
+        }, 'image-webpack-loader']
+      },
+      {
+        test: /\.svg$/,
+        use : {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'assets/',
+            publicPath: '../'
+          }
+        }
       }
     ]
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    compress   : false,
-    port       : 9000,
-    stats      : 'errors-only',
-    open       : true
+    contentBase     : path.join(__dirname, "dist"),
+    compress        : true,
+    port            : 9000,
+    stats           : 'errors-only',
+    hot             : true,
+    open            : true,
+    inline          : true,
+    watchContentBase: true
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title   : 'IS TDS',
+      title   : 'Webpack Config',
       hash    : true,
       template: './src/pugs/index.pug'
-    }),
-    new HtmlWebpackPlugin({
-      title   : 'IS TDS second',
-      hash    : true,
-      filename: 'contact.html',
-      template: './src/pugs/contact.pug'
     }),
     new ExtractTextPlugin({
       filename : './css/main.css',
       allChunks: true,
-      disable  : false
-    })
+      disable  : !isProd
+    }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }

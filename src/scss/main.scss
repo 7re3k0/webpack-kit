@@ -1,6 +1,19 @@
-@import '_includes/body';
+$color-gainsboro: #f7f7f7;
+$color-green    : green;
+$color-purple   : purple;
 
+@import '_includes/nucleo.scss';
+
+body {
+  background: $color-gainsboro;
+}
 h1 {
- color: blue;
+ color  : $color-green;
  display: flex;
  }
+
+.flex {
+  display   : flex;
+  background: url(../assets/robot_lookleft_wink_big.png) top left no-repeat pink;
+  min-height: 200px;
+}
