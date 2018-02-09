@@ -115,3 +115,6 @@ $RECYCLE.BIN/
 
 ### VS Code ###
 .vscode
+
+### Distribution folder ###
+dist
